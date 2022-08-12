@@ -1,21 +1,21 @@
---
+--посчитать кол-во телефонов, которые были проданы
 SELECT sum("quantity")
 FROM "phones_to_orders"
 
---
+--посчитать кол-во телефонов, которые есть в магазине
 SELECT count("model")
 FROM "phones";
 
---
+--посчитать среднюю стоимость телефонов
 SELECT AVG("price")
 FROM "phones";
 
---
+--средняя цена каждого бренда
 SELECT AVG("price"), "brand"
 FROM "phones"
 GROUP BY "brand";
 
---
+--средняя цена на Honor
 SELECT AVG("price"), "brand"
 FROM "phones"
 WHERE "brand" = 'Honor'
@@ -49,7 +49,6 @@ FROM "phones"
 GROUP BY "brand"
 ORDER BY "model's count" DESC
 LIMIT 1;
-
 
 
 --отсортировать по росту и вывести рост и имя
