@@ -126,23 +126,35 @@ GROUP BY "p"."model", "p"."brand";
 
 
 --выбрать почты пользователей которые покупают iPhone
-SELECT "u"."email"
+SELECT "u"."email", "p"."brand"
 FROM "users" AS "u"
-  JOIN "orders" AS "o" ON "u"."id" = "o"."id"  --userID
+  JOIN "orders" AS "o" ON "u"."id" = "o"."id"
   JOIN "phones_to_orders" AS "pto" ON "o"."id" = "pto"."phoneId"
   JOIN "phones" AS "p" ON "pto"."phoneId" = "p"."id"
 WHERE "p"."brand" = 'Iphone'
-GROUP BY "u"."email";
+GROUP BY "u"."email", "p"."brand";
 
 --вывести пользователей у которых количество заказов = 3
+SELECT "u"."firstName", "u"."lastName"
+FROM "users" AS "u"
+  JOIN "orders" AS "o" ON "u"."id" = "o"."id"
+WHERE "o"."id" = 3
+GROUP BY "u"."firstName", "u"."lastName";
 
-
-
-
---все айди заказовб в которых покупали телефон с  id = 7, и почту покупателя
-
+--все айди заказов в которых покупали телефон с  id = 7, и почту покупателя
+SELECT "o"."id", "u"."email", "pto"."orderId"
+FROM "users" AS "u"
+  JOIN "orders" AS "o" ON "u"."id" = "o"."id"
+  JOIN "phones_to_orders" AS "pto" ON "o"."id" = "pto"."phoneId"
+WHERE "pto"."orderId" = 7
+GROUP BY "o"."id", "u"."email", "pto"."orderId";
 
 
 --самый популярный телефон (тот который по к-ву больше всех продан)
+SELECT "p"."model", "p"."brand", max("pto"."quantity")
+FROM "phones_to_orders" AS "pto"
+  JOIN "phones" AS "p" ON "pto"."phoneId" = "p"."id"
+GROUP BY "p"."model", "p"."brand"
+LIMIT 1;
 
 
