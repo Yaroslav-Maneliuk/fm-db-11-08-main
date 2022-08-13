@@ -151,10 +151,9 @@ GROUP BY "o"."id", "u"."email", "pto"."orderId";
 
 
 --самый популярный телефон (тот который по к-ву больше всех продан)
-SELECT "p"."model", "p"."brand", max("pto"."quantity")
+SELECT "p"."model", "p"."brand", sum("pto"."quantity")
 FROM "phones_to_orders" AS "pto"
   JOIN "phones" AS "p" ON "pto"."phoneId" = "p"."id"
 GROUP BY "p"."model", "p"."brand"
+ORDER BY sum("pto"."quantity") DESC
 LIMIT 1;
-
-
