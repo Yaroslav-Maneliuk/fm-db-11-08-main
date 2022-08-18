@@ -73,3 +73,28 @@ RENAME COLUMN "body" TO "content";
 
 ALTER TABLE "users_tasks" RENAME TO "tasks";
 ALTER TABLE "tasks" RENAME TO "users_tasks";
+
+
+
+----------------------------------------------------------------
+
+
+SELECT 
+  "u"."id", 
+  "u"."email", 
+  count("o"."userId"),
+  sum ("pto"."quantity" * "p"."price")
+FROM "users" AS "u"
+  JOIN "orders" AS "o" ON "u"."id" = "o"."userId"
+  JOIN "phones_to_orders" AS "pto" ON "o"."id" = "pto"."orderId"
+  JOIN "phones" AS "p" ON "pto"."orderId" = "p"."id"
+GROUP BY "u"."id", "u"."email"
+ORDER BY "u"."id";
+
+
+SELECT 
+  "u"."id", 
+  "u"."email", 
+  count("o"."userId") OVER (PARTITION BY "o"."userId")
+FROM "users" AS "u"
+  JOIN "orders" AS "o" ON "u"."id" = "o"."userId";
